@@ -151,6 +151,7 @@
 	"extraAmount": "0.00"
       }
     }
+ ## Endpopints para consultas/estornos e cancelamento
  ### cancelar uma transacao
     request {
       method: POST,
