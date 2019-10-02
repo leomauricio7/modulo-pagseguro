@@ -15,8 +15,8 @@
       method: GET,
       url: '/api/payment-method',
       data: {
-          session_id: string,
-          amout": string
+          "session_id": string, id da sessão retornado no passo anterior
+          "amout": string, valor da comprar
       }
     }
 ## OBS: endpoints para pagamento com cartão de crédito
@@ -26,8 +26,8 @@
       method: GET,
       url: '/api/getBin',
       data: {
-          session_id: string,
-          bin: string
+          "session_id": id da sessão,
+          "bin": os 6 priemiros digitos do cartao de credito
       }
     }
 ### token do cartão
@@ -35,13 +35,13 @@
       method: GET,
       url: '/api/cards',
       data: {
-          session_id: string,
-          amount": string,
-          cardNumber": string,
-          cardBrand": string,
-          cardCvv": string,
-          cardExpirationMonth": string,
-          cardExpirationYear": string"
+          "session_id": id da sessão retornado no passo anterior,
+          "amount": valro da compra,
+          "cardNumber": nuemro do cartao,
+          "cardBrand": bandeira do cartao,
+          "cardCvv": cvv do cartão,
+          "cardExpirationMonth": mes de expiração do cartão,
+          "cardExpirationYear": ano de expiração do cartão"
       }
     }
  ### quantidade de parcelas
@@ -49,9 +49,9 @@
       method: GET,
       url: '/api/installments',
       data: {
-          session_id: string,
-          amount: string,
-	      creditCardBrand: string
+          "session_id": id da sessão retornado no passo anterior,
+          "amount": valor da compra,
+	  "creditCardBrand": bandeira do cartão
       }
     }
  ### checkout com cartão de crédito
@@ -59,14 +59,14 @@
       method: POST,
       url: '/api/checkout/credito',
       data: {
-            "mode": "default",
-            "method": "creditCard",
+            "mode": "default", Modo de pagamento
+            "method": "creditCard", //Meio de pagamento
             "sender": {
                 "name": nome do comprador,
                 "email": email do comprador,
                 "phone": {
                     "areaCode": DDD,
-                    "number": nuemro do telefone
+                    "number": numero do telefone
                 },
                 "documents": {
                     "type": CPF ou CNPJ,
@@ -117,5 +117,87 @@
       }
     }
   ## OBS: endpoints para pagamento cem debito online
-  
+  ### checkout com debito online
+  #### OBS: as informações do que é cada atributo para o debito online são as mesmas usadas para o credito
+      request {
+      method: POST,
+      url: '/api/checkout/debito',
+      data: {
+	"mode": "default",
+	"method": "eft",
+	"bank": "BANCO_BRASIL",
+	"sender": {
+		"name": "Paciente Teste",
+		"email": "teste@sandbox.pagseguro.com.br",
+		"phone": {
+			"areaCode": "84",
+			"number": ""
+		},
+		"documents": {
+			"type": "CPF",
+			"value": ""
+		}
+	},
+	"items": {
+		"item": {
+			"id": "1021",
+			"description": "Consulta via bomédico",
+			"amount": "",
+			"quantity": 1
+		}
+	},
+	"reference": "1024",
+	"receiverEmail": "",
+	"extraAmount": "0.00"
+      }
+    }
+ ### cancelar uma transacao
+    request {
+      method: POST,
+      url: '/api/transactions/cancels',
+      data: {
+         "transactionCode": codigo da transação
+      }
+    }
+### estornar uma transacao totalmente
+    request {
+      method: POST,
+      url: '/api/transactions/refunds/total',
+      data: {
+         "transactionCode": codigo da transação
+      }
+    }
+### estornar uma transacao parcialmente
+    request {
+      method: POST,
+      url: '/api/transactions/refunds/parcial',
+      data: {
+         "transactionCode": codigo da transação
+	 "refundValue": valor que deseja estornar
+      }
+    }
+### detalhes de uma transação
+    request {
+      method: GET,
+      url: '/api/transactions/detalhes',
+      data: {
+         "transactionCode": codigo da transação
+      }
+    }
+### detalhes de uma transação pelo codigo da transação
+    request {
+      method: GET,
+      url: '/api/transactions/code',
+      data: {
+         "transactionCode": codigo da transação
+      }
+    }
+### detalhes de uma transação pela referencia
+    request {
+      method: GET,
+      url: '/api/transactions/reference',
+      data: {
+         "reference": codigo de referência da transação
+      }
+    }
 
