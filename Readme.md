@@ -8,6 +8,24 @@
 ### criar sessão
     request {
       method: GET,
-      url: 'http://localhost:5000/api/pagseguro/session',
+      url: '/api/session',
+    }
+### metdodos de pagamento
+    request {
+      method: GET,
+      url: '/api/payment-method',
+      data: {
+          session_id: string,
+          amout": string
+      }
+    }
+### bandeira do cartão
+    request {
+      method: GET,
+      url: '/api/getBin',
+      data: {
+          session_id: string,
+          bin": string
+      }
     }
 
